@@ -29,9 +29,7 @@
 #include "test/global_test_fixture.h"
 #include <stdio.h>
 
-using namespace tycho::core;
 using namespace tycho::image;
-using namespace tycho;
 
 //////////////////////////////////////////////////////////////////////////////
 // TEST SETUP
@@ -43,8 +41,11 @@ tycho::io::interface g_io_interface;
 
 struct global_test_fixture : tycho::test::global_test_fixture
 {
+
 	global_test_fixture() 
 	{
+		using namespace tycho;
+
 		std::string base_dir = core::current_working_directory();
 		io::filesystem_device_ptr fs_device(new io::filesystem_device());
 		g_io_interface.add_device(fs_device);
@@ -66,6 +67,9 @@ BOOST_GLOBAL_FIXTURE(global_test_fixture);
 template<class T0, class T1>
 void test_copy_aux()
 {
+	using namespace tycho;
+	using namespace tycho::core;
+
 	T0 image0;
 	T1 image1;
 	image0.resize_canvas(4, 4, 1, false);
@@ -116,6 +120,9 @@ void test_copy_impl()
 template<class T>
 void test_raw_copy()
 {
+	using namespace tycho;
+	using namespace tycho::core;
+
 	T image;
 	T image1;
 	image.resize_canvas(4, 4, 1, false);
@@ -147,6 +154,9 @@ void test_raw_copy()
 template<class T>
 void test_rgba_format_impl(image_format format)
 {
+	using namespace tycho;
+	using namespace tycho::core;
+
 	T image;
 	BOOST_CHECK(image.get_width() == 0);
 	BOOST_CHECK(image.get_num_mips() == 0);
@@ -200,6 +210,9 @@ void test_rgba_format_impl(image_format format)
 
 BOOST_AUTO_TEST_CASE(test_png_load)
 {
+	using namespace tycho;
+	using namespace tycho::core;
+
 	// 32 bit color test
 	{
 		#include "png_32bit_clr_test.inc"
@@ -279,6 +292,8 @@ BOOST_AUTO_TEST_CASE(test_png_load)
 
 BOOST_AUTO_TEST_CASE(test_resize)
 {
+	using namespace tycho;
+	
 	#include "png_24bit_test.inc"	
 	io::memory_stream str((char*)png_24bit_test, png_24bit_testLen);
 	image_base_ptr i = format_png::load(str);	
@@ -305,6 +320,8 @@ namespace fool
 
 void play()
 {
+	using namespace tycho;
+
 	io::memory_stream istr((char*)fool::daisy, fool::daisyLen);
 	image_base_ptr i = format_png::load(istr);	
 	image_base_ptr ni = image_base_ptr(new image_rgb24());
@@ -325,6 +342,8 @@ void play()
 
 BOOST_AUTO_TEST_CASE(test_mipchain)
 {
+	using namespace tycho;
+
 	io::memory_stream str((char*)fool::daisy, fool::daisyLen);
 	image_base_ptr i = format_png::load(str);	
 	image_base_ptr ni = image_base_ptr(new image_rgb24());
