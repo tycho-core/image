@@ -57,7 +57,7 @@ namespace detail
     void libpng_read_stream(png_structp png_ptr, png_bytep data, png_size_t length)
     {			
 		io::stream* str = reinterpret_cast<io::stream*>(png_get_io_ptr(png_ptr));
-		str->read((char*)data, length);
+		str->read((char*)data, static_cast<int>(length));
     }
 
     void libpng_write_data(png_structp png_ptr, png_bytep data, png_size_t length)
@@ -71,7 +71,7 @@ namespace detail
 		TYCHO_ASSERT(str);
 		if(str)
 		{	
-			str->write((char*)data, length);
+			str->write((char*)data, static_cast<int>(length));
 		}
 	}
 

@@ -393,7 +393,7 @@ png_set_pCAL(png_structp png_ptr, png_infop info_ptr,
    if (png_ptr == NULL || info_ptr == NULL)
       return;
 
-   length = png_strlen(purpose) + 1;
+   length = static_cast<png_uint_32>(png_strlen(purpose) + 1);
    png_debug1(3, "allocating purpose for info (%lu bytes)\n", length);
    info_ptr->pcal_purpose = (png_charp)png_malloc_warn(png_ptr, length);
    if (info_ptr->pcal_purpose == NULL)
@@ -409,7 +409,7 @@ png_set_pCAL(png_structp png_ptr, png_infop info_ptr,
    info_ptr->pcal_type = (png_byte)type;
    info_ptr->pcal_nparams = (png_byte)nparams;
 
-   length = png_strlen(units) + 1;
+   length = static_cast<png_uint_32>(png_strlen(units) + 1);
    png_debug1(3, "allocating units for info (%lu bytes)\n", length);
    info_ptr->pcal_units = (png_charp)png_malloc_warn(png_ptr, length);
    if (info_ptr->pcal_units == NULL)
@@ -431,7 +431,7 @@ png_set_pCAL(png_structp png_ptr, png_infop info_ptr,
 
    for (i = 0; i < nparams; i++)
    {
-      length = png_strlen(params[i]) + 1;
+      length = static_cast<png_uint_32>(png_strlen(params[i]) + 1);
       png_debug2(3, "allocating parameter %d for info (%lu bytes)\n", i, length);
       info_ptr->pcal_params[i] = (png_charp)png_malloc_warn(png_ptr, length);
       if (info_ptr->pcal_params[i] == NULL)
@@ -684,7 +684,7 @@ png_set_iCCP(png_structp png_ptr, png_infop info_ptr,
    if (png_ptr == NULL || info_ptr == NULL || name == NULL || profile == NULL)
       return;
 
-   new_iccp_name = (png_charp)png_malloc_warn(png_ptr, png_strlen(name)+1);
+   new_iccp_name = (png_charp)png_malloc_warn(png_ptr, static_cast<png_uint_32>(png_strlen(name)+1));
    if (new_iccp_name == NULL)
    {
       png_warning(png_ptr, "Insufficient memory to process iCCP chunk.");
@@ -974,7 +974,7 @@ png_set_sPLT(png_structp png_ptr,
         png_sPLT_tp from = entries + i;
 
         to->name = (png_charp)png_malloc_warn(png_ptr,
-          png_strlen(from->name) + 1);
+			static_cast<png_uint_32>(png_strlen(from->name) + 1));
         if (to->name == NULL)
         {
            png_warning(png_ptr,
@@ -1020,8 +1020,8 @@ png_set_unknown_chunks(png_structp png_ptr,
         return;
 
     np = (png_unknown_chunkp)png_malloc_warn(png_ptr,
-        (info_ptr->unknown_chunks_num + num_unknowns) *
-        png_sizeof(png_unknown_chunk));
+		static_cast<png_uint_32>((info_ptr->unknown_chunks_num + num_unknowns) *
+		png_sizeof(png_unknown_chunk)));
     if (np == NULL)
     {
        png_warning(png_ptr,
@@ -1041,7 +1041,7 @@ png_set_unknown_chunks(png_structp png_ptr,
 
         png_strncpy((png_charp)to->name, (png_charp)from->name, 4);
         to->name[4] = '\0';
-        to->data = (png_bytep)png_malloc_warn(png_ptr, from->size);
+        to->data = (png_bytep)png_malloc_warn(png_ptr, static_cast<png_uint_32>(from->size));
         if (to->data == NULL)
         {
            png_warning(png_ptr,

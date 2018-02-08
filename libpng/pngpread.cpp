@@ -524,10 +524,10 @@ png_push_crc_finish(png_structp png_ptr)
 
       png_calculate_crc(png_ptr, png_ptr->save_buffer_ptr, save_size);
 
-      png_ptr->skip_length -= save_size;
-      png_ptr->buffer_size -= save_size;
-      png_ptr->save_buffer_size -= save_size;
-      png_ptr->save_buffer_ptr += save_size;
+      png_ptr->skip_length -= static_cast<png_uint_32>(save_size);
+      png_ptr->buffer_size -= static_cast<png_uint_32>(save_size);
+      png_ptr->save_buffer_size -= static_cast<png_uint_32>(save_size);
+      png_ptr->save_buffer_ptr += static_cast<png_uint_32>(save_size);
    }
    if (png_ptr->skip_length && png_ptr->current_buffer_size)
    {
@@ -540,10 +540,10 @@ png_push_crc_finish(png_structp png_ptr)
 
       png_calculate_crc(png_ptr, png_ptr->current_buffer_ptr, save_size);
 
-      png_ptr->skip_length -= save_size;
-      png_ptr->buffer_size -= save_size;
-      png_ptr->current_buffer_size -= save_size;
-      png_ptr->current_buffer_ptr += save_size;
+      png_ptr->skip_length -= static_cast<png_uint_32>(save_size);
+      png_ptr->buffer_size -= static_cast<png_uint_32>(save_size);
+      png_ptr->current_buffer_size -= static_cast<png_uint_32>(save_size);
+      png_ptr->current_buffer_ptr += static_cast<png_uint_32>(save_size);
    }
    if (!png_ptr->skip_length)
    {
@@ -705,10 +705,10 @@ png_push_read_IDAT(png_structp png_ptr)
       png_calculate_crc(png_ptr, png_ptr->save_buffer_ptr, save_size);
       if (!(png_ptr->flags & PNG_FLAG_ZLIB_FINISHED))
          png_process_IDAT_data(png_ptr, png_ptr->save_buffer_ptr, save_size);
-      png_ptr->idat_size -= save_size;
-      png_ptr->buffer_size -= save_size;
-      png_ptr->save_buffer_size -= save_size;
-      png_ptr->save_buffer_ptr += save_size;
+      png_ptr->idat_size -= static_cast<png_uint_32>(save_size);
+      png_ptr->buffer_size -= static_cast<png_uint_32>(save_size);
+      png_ptr->save_buffer_size -= static_cast<png_uint_32>(save_size);
+      png_ptr->save_buffer_ptr += static_cast<png_uint_32>(save_size);
    }
    if (png_ptr->idat_size && png_ptr->current_buffer_size)
    {
@@ -728,10 +728,10 @@ png_push_read_IDAT(png_structp png_ptr)
       if (!(png_ptr->flags & PNG_FLAG_ZLIB_FINISHED))
         png_process_IDAT_data(png_ptr, png_ptr->current_buffer_ptr, save_size);
 
-      png_ptr->idat_size -= save_size;
-      png_ptr->buffer_size -= save_size;
-      png_ptr->current_buffer_size -= save_size;
-      png_ptr->current_buffer_ptr += save_size;
+      png_ptr->idat_size -= static_cast<png_uint_32>(save_size);
+      png_ptr->buffer_size -= static_cast<png_uint_32>(save_size);
+      png_ptr->current_buffer_size -= static_cast<png_uint_32>(save_size);
+      png_ptr->current_buffer_ptr += static_cast<png_uint_32>(save_size);
    }
    if (!png_ptr->idat_size)
    {
@@ -1273,9 +1273,9 @@ png_push_read_zTXt(png_structp png_ptr, png_infop info_ptr)
                png_charp tmp;
 
                tmp = text;
-               text = (png_charp)png_malloc(png_ptr, text_size +
+               text = (png_charp)png_malloc(png_ptr, static_cast<png_uint_32>(text_size +
                   (png_uint_32)(png_ptr->zbuf_size - png_ptr->zstream.avail_out
-                   + 1));
+                   + 1)));
                png_memcpy(text, tmp, text_size);
                png_free(png_ptr, tmp);
                png_memcpy(text + text_size, png_ptr->zbuf,
